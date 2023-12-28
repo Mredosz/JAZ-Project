@@ -5,16 +5,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PokemonClientSettings implements IPokemonClientSettings {
-    @Value("${poke.api.host}")
-    String baseUrl;
+    private String baseUrl;
+    private String apiVersion;
 
-    @Value("${poke.api.version}")
-    String apiVersion;
-
-    public PokemonClientSettings() {
-    }
-
-    public PokemonClientSettings(String baseUrl, String apiVersion) {
+    public PokemonClientSettings(
+            @Value("pokeapi.co/api") String baseUrl,
+            @Value("v2")String apiVersion) {
         this.baseUrl = baseUrl;
         this.apiVersion = apiVersion;
     }

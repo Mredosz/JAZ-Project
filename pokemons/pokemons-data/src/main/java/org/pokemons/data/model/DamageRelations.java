@@ -1,7 +1,6 @@
 package org.pokemons.data.model;
 
 import jakarta.persistence.*;
-import org.pokemons.client.pokemonclient.contract.dictionaries.type.TypeSummaryDto;
 
 import java.util.List;
 @Entity

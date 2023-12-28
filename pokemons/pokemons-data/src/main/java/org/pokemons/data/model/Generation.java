@@ -11,8 +11,8 @@ public class Generation {
     private int id;
     private int sourceId;
     private String name;
-    @ManyToOne
-    private Ability ability;
+    @OneToMany
+    private List<Ability> ability;
 //    private List<Pokemon> pokemons;
 
     public int getId() {
@@ -39,11 +39,11 @@ public class Generation {
         this.name = name;
     }
 
-    public Ability getAbility() {
+    public List<Ability> getAbility() {
         return ability;
     }
 
-    public void setAbility(Ability ability) {
+    public void setAbility(List<Ability> ability) {
         this.ability = ability;
     }
 
