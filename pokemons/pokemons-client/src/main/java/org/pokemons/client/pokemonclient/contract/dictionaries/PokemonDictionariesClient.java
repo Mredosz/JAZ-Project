@@ -26,59 +26,34 @@ public class PokemonDictionariesClient implements IPokemonDictionariesClient {
     }
 
     public List<TypeSummaryDto> getTypes() {
-        String url = getUrl("type");
-        return ((TypeListDto) getDtoListClass(TypeListDto.class, url)).getType();
+        String url = getUrl("type", settings);
+        return ((TypeListDto) getDtoListClass(TypeListDto.class, url, restClient)).getType();
     }
 
     @Override
     public List<GenerationSummaryDto> getGenerations() {
-        String url = getUrl("generation");
-        return ((GenerationListDto) getDtoListClass(GenerationListDto.class, url)).getGenerations();
+        String url = getUrl("generation", settings);
+        return ((GenerationListDto) getDtoListClass(GenerationListDto.class, url, restClient)).getGenerations();
     }
 
     @Override
     public List<AbilitySummaryDto> getAbilities() {
-        String url = getUrl("ability");
-        return ((AbilityListDto) getDtoListClass(AbilityListDto.class, url)).getAbilities();
+        String url = getUrl("ability", settings);
+        return ((AbilityListDto) getDtoListClass(AbilityListDto.class, url, restClient)).getAbilities();
     }
 
     public TypeDto getType(String name) {
-        String url = getUrl("type", name);
-        return ((TypeDto) getDtoListClass(TypeDto.class, url));
+        String url = getUrl("type", name, settings);
+        return ((TypeDto) getDtoListClass(TypeDto.class, url, restClient));
     }
 
     public GenerationDto getGeneration(String name) {
-        String url = getUrl("generation", name);
-        return ((GenerationDto) getDtoListClass(GenerationDto.class, url));
+        String url = getUrl("generation", name, settings);
+        return ((GenerationDto) getDtoListClass(GenerationDto.class, url, restClient));
     }
 
     public AbilityDto getAbility(String name) {
-        String url = getUrl("ability", name);
-        return ((AbilityDto) getDtoListClass(AbilityDto.class, url));
-    }
-
-    private String getUrl(String pathSegments) {
-        return settings.getUrl()
-                .pathSegment(pathSegments)
-                .queryParam("limit", 400)
-                .build()
-                .toUriString();
-    }
-
-    private String getUrl(String pathSegments, String name) {
-        return settings.getUrl()
-                .pathSegment(pathSegments)
-                .pathSegment(name)
-                .queryParam("limit", 400)
-                .build()
-                .toUriString();
-    }
-
-    private <T> Object getDtoListClass(Class<T> clazz, String url) {
-        return restClient
-                .get()
-                .uri(url)
-                .retrieve()
-                .body(clazz);
+        String url = getUrl("ability", name, settings);
+        return ((AbilityDto) getDtoListClass(AbilityDto.class, url, restClient));
     }
 }
