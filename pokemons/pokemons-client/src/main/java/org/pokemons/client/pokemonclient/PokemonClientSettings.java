@@ -11,11 +11,13 @@ public class PokemonClientSettings implements IPokemonClientSettings {
     @Value("${poke.api.version}")
     String apiVersion;
 
+    public PokemonClientSettings() {
+    }
 
-//    public PokemonClientSettings(String baseUrl, String apiVersion) {
-//        this.baseUrl = baseUrl;
-//        this.apiVersion = apiVersion;
-//    }
+    public PokemonClientSettings(String baseUrl, String apiVersion) {
+        this.baseUrl = baseUrl;
+        this.apiVersion = apiVersion;
+    }
 
     @Override
     public String getBaseUrl() {

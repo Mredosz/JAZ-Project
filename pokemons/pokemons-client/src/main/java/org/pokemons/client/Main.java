@@ -1,22 +1,23 @@
 package org.pokemons.client;
 
+import org.pokemons.client.pokemonclient.PokemonClient;
 import org.pokemons.client.pokemonclient.PokemonClientSettings;
-import org.pokemons.client.pokemonclient.PokemonDictionariesClient;
+import org.pokemons.client.pokemonclient.contract.pokemon.PokemonDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        getList(new PokemonDictionariesClient(new PokemonClientSettings("pokeapi.co/api","v2")));
+//        getList(new PokemonClient(new PokemonClientSettings("pokeapi.co/api","v2")));
     }
 
-    public static void getList(PokemonDictionariesClient pokemonClient){
-        var abilities = pokemonClient.getAbilities();
-        var generations = pokemonClient.getGenerations();
-        var types = pokemonClient.getTypes();
-        var type = pokemonClient.getType();
-
-        for (var test : abilities){
-            System.out.println(test);
+    public static void getList(PokemonClient pokemonClient){
+        var pokemons = pokemonClient.getPokemons(2);
+        List<PokemonDto> pokemonDtos = new ArrayList<>();
+        for (var pokemon : pokemons){
+            pokemonDtos.add(pokemonClient.getPokemon(pokemon.getName()));
         }
     }
 }

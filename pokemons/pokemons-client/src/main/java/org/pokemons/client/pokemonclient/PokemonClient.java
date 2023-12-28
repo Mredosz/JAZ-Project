@@ -1,8 +1,8 @@
 package org.pokemons.client.pokemonclient;
 
-import org.pokemons.client.pokemonclient.contract.PokemonDto;
-import org.pokemons.client.pokemonclient.contract.PokemonListDto;
-import org.pokemons.client.pokemonclient.contract.PokemonSummaryDto;
+import org.pokemons.client.pokemonclient.contract.pokemon.PokemonDto;
+import org.pokemons.client.pokemonclient.contract.pokemon.PokemonListDto;
+import org.pokemons.client.pokemonclient.contract.pokemon.PokemonSummaryDto;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 

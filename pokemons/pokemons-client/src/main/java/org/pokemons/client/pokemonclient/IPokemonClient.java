@@ -1,7 +1,7 @@
 package org.pokemons.client.pokemonclient;
 
-import org.pokemons.client.pokemonclient.contract.PokemonDto;
-import org.pokemons.client.pokemonclient.contract.PokemonSummaryDto;
+import org.pokemons.client.pokemonclient.contract.pokemon.PokemonDto;
+import org.pokemons.client.pokemonclient.contract.pokemon.PokemonSummaryDto;
 
 import java.util.List;
 

@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class StatsSummaryDto {
+@Getter
+public class PokemonSummaryDto {
     @JsonProperty("name")
     private String name;
 }
