@@ -1,13 +1,7 @@
 package org.pokemons.client.pokemonclient;
 
-import org.pokemons.client.pokemonclient.contract.dictionaries.TypeListDto;
-import org.pokemons.client.pokemonclient.contract.dictionaries.TypeSummaryDto;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 @Component
 public class PokemonClient implements IPokemonClient{
