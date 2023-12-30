@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.pokemons.client.pokemonclient.contract.dictionaries.ability.AbilitySummaryDto;
+import org.pokemons.client.pokemonclient.contract.dictionaries.stats.StatsSummaryDto;
 import org.pokemons.client.pokemonclient.contract.dictionaries.type.TypeSummaryDto;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class PokemonDto extends PokemonSummaryDto {
     @JsonProperty("weight")
     private int weight;
     @JsonProperty("sprites")
-    private SpritesSummaryDto image;
+    private ImageSummaryDto image;
     @JsonProperty("abilities")
     private List<AbilityFromPokemonDto> abilities;
     @JsonProperty("types")
@@ -36,7 +37,7 @@ public class PokemonDto extends PokemonSummaryDto {
     }
     @Getter
     @Setter
-    public static class SpritesSummaryDto {
+    public static class ImageSummaryDto {
         @JsonProperty("front_default")
         private String url;
     }
@@ -49,12 +50,6 @@ public class PokemonDto extends PokemonSummaryDto {
         private int effort;
         @JsonProperty("stat")
         private StatsSummaryDto stats;
-    }
-    @Getter
-    @Setter
-    public static class StatsSummaryDto {
-        @JsonProperty("name")
-        private String name;
     }
     @Getter
     @Setter

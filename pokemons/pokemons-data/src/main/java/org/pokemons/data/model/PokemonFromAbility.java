@@ -1,9 +1,6 @@
 package org.pokemons.data.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class PokemonFromAbility {
@@ -11,7 +8,8 @@ public class PokemonFromAbility {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private boolean isHidden;
-//    private Pokemon pokemon;
+    @OneToOne
+    private Pokemon pokemon;
 
     public int getId() {
         return id;
@@ -29,11 +27,11 @@ public class PokemonFromAbility {
         isHidden = hidden;
     }
 
-//    public Pokemon getPokemon() {
-//        return pokemon;
-//    }
-//
-//    public void setPokemon(Pokemon pokemon) {
-//        this.pokemon = pokemon;
-//    }
+    public Pokemon getPokemon() {
+        return pokemon;
+    }
+
+    public void setPokemon(Pokemon pokemon) {
+        this.pokemon = pokemon;
+    }
 }

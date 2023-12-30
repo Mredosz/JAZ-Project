@@ -8,17 +8,17 @@ public class DamageRelations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @OneToMany
+    @ManyToMany
     private List<Type> doubleDamageFrom;
-    @OneToMany
+    @ManyToMany
     private List<Type> doubleDamageTo;
-    @OneToMany
+    @ManyToMany
     private List<Type> halfDamageFrom;
-    @OneToMany
+    @ManyToMany
     private List<Type> halfDamageTo;
-    @OneToMany
+    @ManyToMany
     private List<Type> noDamageFrom;
-    @OneToMany
+    @ManyToMany
     private List<Type> noDamageTo;
 
     public int getId() {

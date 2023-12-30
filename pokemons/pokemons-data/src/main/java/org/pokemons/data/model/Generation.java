@@ -13,7 +13,8 @@ public class Generation {
     private String name;
     @OneToMany
     private List<Ability> ability;
-//    private List<Pokemon> pokemons;
+    @ManyToMany
+    private List<Pokemon> pokemons;
 
     public int getId() {
         return id;
@@ -47,11 +48,11 @@ public class Generation {
         this.ability = ability;
     }
 
-//    public List<Pokemon> getPokemons() {
-//        return pokemons;
-//    }
-//
-//    public void setPokemons(List<Pokemon> pokemons) {
-//        this.pokemons = pokemons;
-//    }
+    public List<Pokemon> getPokemons() {
+        return pokemons;
+    }
+
+    public void setPokemons(List<Pokemon> pokemons) {
+        this.pokemons = pokemons;
+    }
 }

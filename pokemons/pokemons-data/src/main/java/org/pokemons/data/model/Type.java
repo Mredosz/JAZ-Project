@@ -11,10 +11,10 @@ public class Type {
     private int id;
     private int sourceId;
     private String name;
-    @ManyToOne
-    private DamageRelations damageRelations;
     @ManyToMany
-    private List<PokemonFromType> pokemons;
+    private List<DamageRelations> damageRelations;
+    @ManyToMany
+    private List<Pokemon> pokemons;
 
     public int getId() {
         return id;
@@ -40,19 +40,19 @@ public class Type {
         this.name = name;
     }
 
-    public DamageRelations getDamageRelations() {
+    public List<DamageRelations> getDamageRelations() {
         return damageRelations;
     }
 
-    public void setDamageRelations(DamageRelations damageRelations) {
+    public void setDamageRelations(List<DamageRelations> damageRelations) {
         this.damageRelations = damageRelations;
     }
 
-    public List<PokemonFromType> getPokemons() {
+    public List<Pokemon> getPokemons() {
         return pokemons;
     }
 
-    public void setPokemons(List<PokemonFromType> pokemons) {
+    public void setPokemons(List<Pokemon> pokemons) {
         this.pokemons = pokemons;
     }
 }

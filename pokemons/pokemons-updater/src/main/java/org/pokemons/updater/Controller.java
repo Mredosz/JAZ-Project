@@ -13,6 +13,6 @@ public class Controller {
 
     @GetMapping("update")
     public void update(){
-        pokemonUpdater.update();
+        pokemonUpdater.update(20);
     }
 }

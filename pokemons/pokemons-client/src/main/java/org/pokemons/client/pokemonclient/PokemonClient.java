@@ -1,5 +1,7 @@
 package org.pokemons.client.pokemonclient;
 
+import org.pokemons.client.pokemonclient.contract.dictionaries.stats.StatsListDto;
+import org.pokemons.client.pokemonclient.contract.dictionaries.stats.StatsSummaryDto;
 import org.pokemons.client.pokemonclient.contract.pokemon.PokemonDto;
 import org.pokemons.client.pokemonclient.contract.pokemon.PokemonListDto;
 import org.pokemons.client.pokemonclient.contract.pokemon.PokemonSummaryDto;
@@ -23,7 +25,6 @@ public class PokemonClient implements IPokemonClient {
         this.baseUrl = settings.getBaseUrl();
     }
 
-
     @Override
     public List<PokemonSummaryDto> getPokemons(int quantity) {
         String url = getUrl("pokemon", settings, quantity);
@@ -36,4 +37,9 @@ public class PokemonClient implements IPokemonClient {
         return ((PokemonDto) getDtoListClass(PokemonDto.class, url, restClient));
     }
 
+    @Override
+    public List<StatsSummaryDto> getStats() {
+        String url = getUrl("stat", settings);
+        return ((StatsListDto) getDtoListClass(StatsListDto.class, url, restClient)).getStats();
+    }
 }
