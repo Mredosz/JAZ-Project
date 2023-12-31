@@ -2,6 +2,7 @@ package org.pokemons.data.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,9 +13,9 @@ public class Type {
     private int sourceId;
     private String name;
     @ManyToMany
-    private List<DamageRelations> damageRelations;
-    @ManyToMany
-    private List<Pokemon> pokemons;
+    private List<DamageRelations> damageRelations = new ArrayList<>();
+//    @ManyToMany
+//    private List<Pokemon> pokemons = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -48,11 +49,11 @@ public class Type {
         this.damageRelations = damageRelations;
     }
 
-    public List<Pokemon> getPokemons() {
-        return pokemons;
-    }
-
-    public void setPokemons(List<Pokemon> pokemons) {
-        this.pokemons = pokemons;
-    }
+//    public List<Pokemon> getPokemons() {
+//        return pokemons;
+//    }
+//
+//    public void setPokemons(List<Pokemon> pokemons) {
+//        this.pokemons = pokemons;
+//    }
 }

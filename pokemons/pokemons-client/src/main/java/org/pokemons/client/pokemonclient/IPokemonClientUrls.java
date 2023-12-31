@@ -6,7 +6,7 @@ public interface IPokemonClientUrls {
     default String getUrl(String pathSegments, IPokemonClientSettings settings) {
         return settings.getUrl()
                 .pathSegment(pathSegments)
-                .queryParam("limit", 20)
+                .queryParam("limit", 400)
                 .build()
                 .toUriString();
     }

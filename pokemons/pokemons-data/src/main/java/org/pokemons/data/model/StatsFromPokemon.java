@@ -2,6 +2,9 @@ package org.pokemons.data.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class StatsFromPokemon {
     @Id
@@ -11,6 +14,13 @@ public class StatsFromPokemon {
     private int effort;
     @ManyToOne
     private Stats stats;
+    @ManyToMany
+    @JoinTable(
+            name = "pokemon_stats_from_pokemon",
+            joinColumns = @JoinColumn(name = "statsfrompokemon_id"),
+            inverseJoinColumns = @JoinColumn(name = "pokemon_id")
+    )
+    private List<Pokemon> pokemons = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -42,5 +52,13 @@ public class StatsFromPokemon {
 
     public void setStats(Stats stats) {
         this.stats = stats;
+    }
+
+    public List<Pokemon> getPokemons() {
+        return pokemons;
+    }
+
+    public void setPokemons(List<Pokemon> pokemons) {
+        this.pokemons = pokemons;
     }
 }

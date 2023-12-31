@@ -27,7 +27,7 @@ public class PokemonUpdater implements IPokemonUpdater {
 
     @Override
     public void update(int quantity) {
-        updateDictionaries();
+//        updateDictionaries();
         updatePokemon(quantity);
         saveGenerationToPokemon();
     }
@@ -95,16 +95,13 @@ public class PokemonUpdater implements IPokemonUpdater {
     }
 
     private void saveGenerationToPokemon() {
-        for (var pokemonFromDb : dbCatalog.getPokemon().findAll()) {
-            for (var generationDto : getGenerationDtoList()) {
-                for (var pokemonFromGeneration : generationDto.getPokemons()) {
-                    for (var generationFromDb : dbCatalog.getGeneration().findAll()) {
-                        if (pokemonFromDb.getName().equals(pokemonFromGeneration.getName())) {
-                            if (generationDto.getName().equals(generationFromDb.getName())) {
-                                pokemonFromDb.setGeneration(generationFromDb);
-                                dbCatalog.getPokemon().save(pokemonFromDb);
-                            }
-                        }
+        for (var generationDto : getGenerationDtoList()) {
+            for (var pokemonFromGeneration : generationDto.getPokemons()) {
+                var pokemonFromDb = dbCatalog.getPokemon().findFirstByName(pokemonFromGeneration.getName()).orElse(null);
+                for (var generationFromDb : dbCatalog.getGeneration().findAll()) {
+                    if (generationDto.getName().equals(generationFromDb.getName()) && pokemonFromDb != null) {
+                        pokemonFromDb.setGeneration(generationFromDb);
+                        dbCatalog.getPokemon().save(pokemonFromDb);
                     }
                 }
             }
@@ -149,27 +146,103 @@ public class PokemonUpdater implements IPokemonUpdater {
     }
 
     private void setRelationsToPokemon(PokemonDto pokemonDto, Pokemon pokemon) {
-//        for (var typeFromDb : dbCatalog.getType().findAll()){
-//            for (var typeFromPokemonDto : pokemonDto.getTypes()){
-//                if (typeFromDb.getName().equals(typeFromPokemonDto.getType().getName())){
-//                    pokemon.getTypes().add(typeFromDb);
-//                }
-//            }
-//        }
-
-
-        saveImage(pokemonDto, pokemon);
+        pokemonDto.getTypes().forEach(this::saveTypeFromPokemon);
+        pokemonDto.getStats().forEach(this::saveStatsFromPokemon);
+        pokemonDto.getAbilities().forEach(this::saveAbilityFromPokemon);
+        setAbilityRelation(pokemonDto, pokemon);
+        setTypeRelation(pokemonDto, pokemon);
+        setStatsRelation(pokemonDto, pokemon);
         dbCatalog.getPokemon().save(pokemon);
+        saveImage(pokemonDto, pokemon);
+    }
+
+    private void setAbilityRelation(PokemonDto pokemonDto, Pokemon pokemon) {
+        for (var abilityFromDb : dbCatalog.getAbilityFromPokemon().findAll()){
+            for (var abilityFromPokemon : pokemonDto.getAbilities()){
+                if (abilityFromDb.getAbility().getName().equals(abilityFromPokemon.getAbility().getName()) && abilityFromDb.getSlot() == abilityFromPokemon.getSlot()){
+                    pokemon.getAbilities().add(abilityFromDb);
+                    abilityFromDb.getPokemons().add(pokemon);
+                }
+            }
+        }
+    }
+
+    private void setTypeRelation(PokemonDto pokemonDto, Pokemon pokemon) {
+        for (var typeFromDb : dbCatalog.getTypeFromPokemon().findAll()){
+            for (var typeFromPokemon : pokemonDto.getTypes()){
+                if (typeFromDb.getType().getName().equals(typeFromPokemon.getType().getName()) && typeFromDb.getSlot() == typeFromPokemon.getSlot()){
+                    pokemon.getTypes().add(typeFromDb);
+                    typeFromDb.getPokemons().add(pokemon);
+                }
+            }
+        }
+    }
+
+    private void setStatsRelation(PokemonDto pokemonDto, Pokemon pokemon) {
+        for (var statsFromDb : dbCatalog.getStatsFromPokemon().findAll()){
+            for (var statsFromPokemon : pokemonDto.getStats()){
+                if (statsFromDb.getStats().getName().equals(statsFromPokemon.getStats().getName()) && statsFromDb.getBaseStat() == statsFromPokemon.getBaseStat()){
+                    pokemon.getStats().add(statsFromDb);
+                    statsFromDb.getPokemons().add(pokemon);
+                }
+            }
+        }
     }
 
     private void saveImage(PokemonDto pokemonDto, Pokemon pokemon) {
         var image = mapper.getImage().toEntity(pokemonDto.getImage());
-        dbCatalog.getImage().save(image);
-        pokemon.setImage(image);
-//        image.setPokemon(pokemon);
+        var imageFromDb = dbCatalog.getImage()
+                .findFirstByUrl(image.getUrl())
+                .orElse(null);
+        if (imageFromDb == null) {
+            dbCatalog.getImage().save(image);
+            pokemon.setImage(image);
+        }
     }
 
     private void updatePokemon(int quantity) {
         getPokemonDtoList(quantity).forEach(this::savePokemon);
+    }
+
+    private void saveTypeFromPokemon(PokemonDto.TypeFromPokemonDto typeFromPokemonDto) {
+        var type = mapper.getTypeFromPokemon().toEntity(typeFromPokemonDto);
+        var typeFromDb = dbCatalog.getType()
+                .findFirstByName(typeFromPokemonDto.getType().getName())
+                .orElse(null);
+        if (typeFromDb != null) type.setType(typeFromDb);
+        var typeFromPokemonFromDb = dbCatalog.getTypeFromPokemon()
+                .findFirstByTypeNameAndSlot(type.getType().getName(), type.getSlot())
+                .orElse(null);
+        if (typeFromPokemonFromDb == null) {
+            dbCatalog.getTypeFromPokemon().save(type);
+        }
+    }
+
+    private void saveStatsFromPokemon(PokemonDto.StatsFromPokemonDto statsFromPokemonDto) {
+        var stat = mapper.getStatsFromPokemon().toEntity(statsFromPokemonDto);
+        var statFromDb = dbCatalog.getStats()
+                .findFirstByName(statsFromPokemonDto.getStats().getName())
+                .orElse(null);
+        if (statFromDb != null) stat.setStats(statFromDb);
+        var statFromPokemonFromDb = dbCatalog.getStatsFromPokemon()
+                .findFirstByStatsNameAndBaseStat(stat.getStats().getName(), stat.getBaseStat())
+                .orElse(null);
+        if (statFromPokemonFromDb == null) {
+            dbCatalog.getStatsFromPokemon().save(stat);
+        }
+    }
+
+    private void saveAbilityFromPokemon(PokemonDto.AbilityFromPokemonDto abilityFromPokemonDto){
+        var ability = mapper.getAbilityFromPokemon().toEntity(abilityFromPokemonDto);
+        var abilityFromDb = dbCatalog.getAbility()
+                .findFirstByName(abilityFromPokemonDto.getAbility().getName())
+                .orElse(null);
+        if (abilityFromDb != null) ability.setAbility(abilityFromDb);
+        var abilityFromPokemonFromDb = dbCatalog.getAbilityFromPokemon()
+                .findFirstByAbilityNameAndSlot(ability.getAbility().getName(), ability.getSlot())
+                .orElse(null);
+        if (abilityFromPokemonFromDb == null){
+            dbCatalog.getAbilityFromPokemon().save(ability);
+        }
     }
 }

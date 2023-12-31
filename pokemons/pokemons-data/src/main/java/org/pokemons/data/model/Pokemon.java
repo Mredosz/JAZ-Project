@@ -2,6 +2,7 @@ package org.pokemons.data.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,12 +18,12 @@ public class Pokemon {
     private Image image;
     @OneToOne
     private Generation generation;
-    @ManyToMany
-    private List<AbilityFromPokemon> abilities;
-    @ManyToMany
-    private List<TypeFromPokemon> types;
-    @ManyToMany
-    private List<StatsFromPokemon> stats;
+    @ManyToMany(mappedBy = "pokemons")
+    private List<AbilityFromPokemon> abilities = new ArrayList<>();
+    @ManyToMany(mappedBy = "pokemons")
+    private List<TypeFromPokemon> types = new ArrayList<>();
+    @ManyToMany(mappedBy = "pokemons")
+    private List<StatsFromPokemon> stats = new ArrayList<>();
 
     public int getId() {
         return id;

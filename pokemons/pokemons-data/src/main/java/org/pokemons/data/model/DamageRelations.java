@@ -2,6 +2,7 @@ package org.pokemons.data.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 public class DamageRelations {
@@ -9,17 +10,17 @@ public class DamageRelations {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToMany
-    private List<Type> doubleDamageFrom;
+    private List<Type> doubleDamageFrom = new ArrayList<>();
     @ManyToMany
-    private List<Type> doubleDamageTo;
+    private List<Type> doubleDamageTo = new ArrayList<>();
     @ManyToMany
-    private List<Type> halfDamageFrom;
+    private List<Type> halfDamageFrom = new ArrayList<>();
     @ManyToMany
-    private List<Type> halfDamageTo;
+    private List<Type> halfDamageTo = new ArrayList<>();
     @ManyToMany
-    private List<Type> noDamageFrom;
+    private List<Type> noDamageFrom = new ArrayList<>();
     @ManyToMany
-    private List<Type> noDamageTo;
+    private List<Type> noDamageTo = new ArrayList<>();
 
     public int getId() {
         return id;

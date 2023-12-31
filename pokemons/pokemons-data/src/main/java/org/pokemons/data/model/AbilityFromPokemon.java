@@ -2,6 +2,9 @@ package org.pokemons.data.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class AbilityFromPokemon {
     @Id
@@ -10,6 +13,13 @@ public class AbilityFromPokemon {
     private int slot;
     @ManyToOne
     private Ability ability;
+    @ManyToMany
+    @JoinTable(
+            name = "pokemon_ability_from_pokemon",
+            joinColumns = @JoinColumn(name = "abilityfrompokemon_id"),
+            inverseJoinColumns = @JoinColumn(name = "pokemon_id")
+    )
+    private List<Pokemon> pokemons = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -33,5 +43,13 @@ public class AbilityFromPokemon {
 
     public void setAbility(Ability ability) {
         this.ability = ability;
+    }
+
+    public List<Pokemon> getPokemons() {
+        return pokemons;
+    }
+
+    public void setPokemons(List<Pokemon> pokemons) {
+        this.pokemons = pokemons;
     }
 }

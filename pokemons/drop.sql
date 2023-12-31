@@ -1,0 +1,27 @@
+ALTER TABLE Ability_From_Pokemon DROP CONSTRAINT AbilityFromPokemon_Ability;
+ALTER TABLE Ability DROP CONSTRAINT Ability_Generation;
+ALTER TABLE Damage_Relations DROP CONSTRAINT DamageRelations_Type;
+ALTER TABLE Pokemon DROP CONSTRAINT Pokemon_Generation;
+ALTER TABLE Pokemon DROP CONSTRAINT Pokemon_Spirites;
+ALTER TABLE Stats_From_Pokemon DROP CONSTRAINT StatsFromPokemon_Stats;
+ALTER TABLE Pokemon_Ability_From_Pokemon DROP CONSTRAINT Table_11_AbilityFromPokemon;
+ALTER TABLE Pokemon_Ability_From_Pokemon DROP CONSTRAINT Table_11_Pokemon;
+ALTER TABLE Pokemon_Type_From_Pokemon DROP CONSTRAINT Table_12_Pokemon;
+ALTER TABLE Pokemon_Type_From_Pokemon DROP CONSTRAINT Table_12_TtypeFromPokemon;
+ALTER TABLE Pokemon_Stats_From_Pokemon DROP CONSTRAINT Table_13_Pokemon;
+ALTER TABLE Pokemon_Stats_From_Pokemon DROP CONSTRAINT Table_13_StatsFromPokemon;
+ALTER TABLE Type_From_Pokemon DROP CONSTRAINT TtypeFromPokemon_Type;
+
+DROP TABLE Ability;
+DROP TABLE Ability_From_Pokemon;
+DROP TABLE Damage_Relations;
+DROP TABLE Generation;
+DROP TABLE Image;
+DROP TABLE Pokemon;
+DROP TABLE Pokemon_Ability_From_Pokemon;
+DROP TABLE Pokemon_Stats_From_Pokemon;
+DROP TABLE Pokemon_Type_From_Pokemon;
+DROP TABLE Stats;
+DROP TABLE Stats_From_Pokemon;
+DROP TABLE Type;
+DROP TABLE Type_From_Pokemon;
