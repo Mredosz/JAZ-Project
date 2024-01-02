@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class PokemonUpdater implements IPokemonUpdater {
 
     @Override
     public void update(int quantity) {
-//        updateDictionaries();
+        updateDictionaries();
         updatePokemon(quantity);
         saveGenerationToPokemon();
     }
@@ -58,9 +59,9 @@ public class PokemonUpdater implements IPokemonUpdater {
         return generationDtoList;
     }
 
-    private List<PokemonDto> getPokemonDtoList(int quantity) {
+    private List<PokemonDto> getPokemonDtoList(int quantity, int nextId) {
         List<PokemonDto> pokemonDtoList = new ArrayList<>();
-        client.getPokemons(quantity)
+        client.getPokemons(quantity, nextId)
                 .forEach(pokemon ->
                         pokemonDtoList
                                 .add(client.getPokemon(pokemon.getName())));
@@ -129,10 +130,10 @@ public class PokemonUpdater implements IPokemonUpdater {
     }
 
     private void updateDictionaries() {
-        getGenerationDtoList().forEach(this::saveGeneration);
-        getAbilityDtoList().forEach(this::saveAbility);
-        getTypeDtoList().forEach(this::saveType);
-        client.getStats().forEach(this::saveStats);
+        if (dbCatalog.getGeneration().findAll().size() < 9) getGenerationDtoList().forEach(this::saveGeneration);
+        if (dbCatalog.getAbility().findAll().size() < 367) getAbilityDtoList().forEach(this::saveAbility);
+        if (dbCatalog.getType().findAll().size() < 20) getTypeDtoList().forEach(this::saveType);
+        if (dbCatalog.getStats().findAll().size() < 8) client.getStats().forEach(this::saveStats);
     }
 
     private void savePokemon(PokemonDto pokemonDto) {
@@ -157,9 +158,9 @@ public class PokemonUpdater implements IPokemonUpdater {
     }
 
     private void setAbilityRelation(PokemonDto pokemonDto, Pokemon pokemon) {
-        for (var abilityFromDb : dbCatalog.getAbilityFromPokemon().findAll()){
-            for (var abilityFromPokemon : pokemonDto.getAbilities()){
-                if (abilityFromDb.getAbility().getName().equals(abilityFromPokemon.getAbility().getName()) && abilityFromDb.getSlot() == abilityFromPokemon.getSlot()){
+        for (var abilityFromDb : dbCatalog.getAbilityFromPokemon().findAll()) {
+            for (var abilityFromPokemon : pokemonDto.getAbilities()) {
+                if (abilityFromDb.getAbility().getName().equals(abilityFromPokemon.getAbility().getName()) && abilityFromDb.getSlot() == abilityFromPokemon.getSlot()) {
                     pokemon.getAbilities().add(abilityFromDb);
                     abilityFromDb.getPokemons().add(pokemon);
                 }
@@ -168,9 +169,9 @@ public class PokemonUpdater implements IPokemonUpdater {
     }
 
     private void setTypeRelation(PokemonDto pokemonDto, Pokemon pokemon) {
-        for (var typeFromDb : dbCatalog.getTypeFromPokemon().findAll()){
-            for (var typeFromPokemon : pokemonDto.getTypes()){
-                if (typeFromDb.getType().getName().equals(typeFromPokemon.getType().getName()) && typeFromDb.getSlot() == typeFromPokemon.getSlot()){
+        for (var typeFromDb : dbCatalog.getTypeFromPokemon().findAll()) {
+            for (var typeFromPokemon : pokemonDto.getTypes()) {
+                if (typeFromDb.getType().getName().equals(typeFromPokemon.getType().getName()) && typeFromDb.getSlot() == typeFromPokemon.getSlot()) {
                     pokemon.getTypes().add(typeFromDb);
                     typeFromDb.getPokemons().add(pokemon);
                 }
@@ -179,9 +180,9 @@ public class PokemonUpdater implements IPokemonUpdater {
     }
 
     private void setStatsRelation(PokemonDto pokemonDto, Pokemon pokemon) {
-        for (var statsFromDb : dbCatalog.getStatsFromPokemon().findAll()){
-            for (var statsFromPokemon : pokemonDto.getStats()){
-                if (statsFromDb.getStats().getName().equals(statsFromPokemon.getStats().getName()) && statsFromDb.getBaseStat() == statsFromPokemon.getBaseStat()){
+        for (var statsFromDb : dbCatalog.getStatsFromPokemon().findAll()) {
+            for (var statsFromPokemon : pokemonDto.getStats()) {
+                if (statsFromDb.getStats().getName().equals(statsFromPokemon.getStats().getName()) && statsFromDb.getBaseStat() == statsFromPokemon.getBaseStat()) {
                     pokemon.getStats().add(statsFromDb);
                     statsFromDb.getPokemons().add(pokemon);
                 }
@@ -201,7 +202,14 @@ public class PokemonUpdater implements IPokemonUpdater {
     }
 
     private void updatePokemon(int quantity) {
-        getPokemonDtoList(quantity).forEach(this::savePokemon);
+        var theLastId = dbCatalog.getPokemon().findAll()
+                .stream()
+                .collect(Collectors.summarizingInt(Pokemon::getSourceId))
+                .getMax();
+        if (theLastId <= 0) {
+            theLastId = quantity;
+        }
+        getPokemonDtoList(quantity, theLastId).forEach(this::savePokemon);
     }
 
     private void saveTypeFromPokemon(PokemonDto.TypeFromPokemonDto typeFromPokemonDto) {
@@ -232,7 +240,7 @@ public class PokemonUpdater implements IPokemonUpdater {
         }
     }
 
-    private void saveAbilityFromPokemon(PokemonDto.AbilityFromPokemonDto abilityFromPokemonDto){
+    private void saveAbilityFromPokemon(PokemonDto.AbilityFromPokemonDto abilityFromPokemonDto) {
         var ability = mapper.getAbilityFromPokemon().toEntity(abilityFromPokemonDto);
         var abilityFromDb = dbCatalog.getAbility()
                 .findFirstByName(abilityFromPokemonDto.getAbility().getName())
@@ -241,7 +249,7 @@ public class PokemonUpdater implements IPokemonUpdater {
         var abilityFromPokemonFromDb = dbCatalog.getAbilityFromPokemon()
                 .findFirstByAbilityNameAndSlot(ability.getAbility().getName(), ability.getSlot())
                 .orElse(null);
-        if (abilityFromPokemonFromDb == null){
+        if (abilityFromPokemonFromDb == null) {
             dbCatalog.getAbilityFromPokemon().save(ability);
         }
     }

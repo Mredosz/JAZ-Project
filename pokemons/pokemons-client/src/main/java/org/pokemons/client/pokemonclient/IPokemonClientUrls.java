@@ -11,10 +11,11 @@ public interface IPokemonClientUrls {
                 .toUriString();
     }
 
-    default String getUrl(String pathSegments, IPokemonClientSettings settings, int quantity) {
+    default String getUrl(String pathSegments, IPokemonClientSettings settings, int quantity, int nextId) {
         return settings.getUrl()
                 .pathSegment(pathSegments)
                 .queryParam("limit", quantity)
+                .queryParam("offset", nextId)
                 .build()
                 .toUriString();
     }

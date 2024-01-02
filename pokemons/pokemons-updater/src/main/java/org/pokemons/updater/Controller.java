@@ -1,6 +1,7 @@
 package org.pokemons.updater;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -12,7 +13,7 @@ public class Controller {
     }
 
     @GetMapping("update")
-    public void update(){
-        pokemonUpdater.update(20);
+    public void update(@RequestParam int quantity){
+        pokemonUpdater.update(quantity);
     }
 }

@@ -26,8 +26,8 @@ public class PokemonClient implements IPokemonClient {
     }
 
     @Override
-    public List<PokemonSummaryDto> getPokemons(int quantity) {
-        String url = getUrl("pokemon", settings, quantity);
+    public List<PokemonSummaryDto> getPokemons(int quantity, int nextId) {
+        String url = getUrl("pokemon", settings, quantity, nextId);
         return ((PokemonListDto) getDtoListClass(PokemonListDto.class, url, restClient)).getPokemons();
     }
 

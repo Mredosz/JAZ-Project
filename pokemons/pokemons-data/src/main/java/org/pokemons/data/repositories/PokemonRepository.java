@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface PokemonRepository extends JpaRepository<Pokemon, Integer> {
     Optional<Pokemon> findFirstByName(String name);
+    Optional<Pokemon> findFirstBySourceId(int id);
 }
