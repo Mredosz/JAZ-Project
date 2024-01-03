@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{general.html :: head}"></head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th scope="col"><b>Id</b></th>
+        <th scope="col"><b>Name</b></th>
+        <th scope="col"><b>Generation</b></th>
+        <th scope="col"><b>Height</b></th>
+        <th scope="col"><b>Weight</b></th>
+        <th scope="col"><b>Abilities</b></th>
+        <th scope="col"><b>Stats</b></th>
+        <th scope="col"><b>Types</b></th>
+        <th scope="col"><b>Image</b></th>
+        <th scope="col"><b>Edit</b></th>
+        <th scope="col"><b>Delete</b></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text = "${pokemon.getId()}"></td>
+        <td th:text = "${pokemon.getName()}"></td>
+        <td th:text = "${pokemon.getGeneration().getName()}"></td>
+        <td th:text = "${pokemon.getHeight()}"></td>
+        <td th:text = "${pokemon.getWeight()}"></td>
+        <td>
+            <ul>
+                <li th:each="ability : ${pokemon.getAbilities()}">
+                    <span th:text="${ability.getAbility().getName()}">Name</span>
+                </li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="stat : ${pokemon.getStats()}">
+                    <span th:text="${stat.getStats().getName()}">Name</span>
+                    <span th:text="${stat.getBaseStat()}">BaseStat</span>
+                    <span th:text="${stat.getEffort()}">Effort</span>
+                </li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="types : ${pokemon.getTypes()}">
+                    <span th:text="${types.getSlot()}">Slot</span>
+                    <span th:text="${types.getType().getName()}">Slot</span>
+                </li>
+            </ul>
+        </td>
+        <td><img th:src = "${pokemon.getImage().getUrl()}"></td>
+        <td>
+            <a th:href="@{'/api/v1/pokemon/update/' + ${pokemon.getId()}}">
+                <button>
+                    <b>Edit</b>
+                </button>
+            </a>
+        </td>
+        <td>
+            <a th:href="@{'/api/v1/pokemon/delete/' + ${pokemon.getId()}}">
+                <button>
+                    <b>Delete</b>
+                </button>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
