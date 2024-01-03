@@ -31,6 +31,7 @@ public class PokemonUpdater implements IPokemonUpdater {
         updateDictionaries();
         updatePokemon(quantity);
         saveGenerationToPokemon();
+        saveImageFromDb();
     }
 
     private List<TypeDto> getTypeDtoList() {
@@ -198,6 +199,8 @@ public class PokemonUpdater implements IPokemonUpdater {
         if (imageFromDb == null) {
             dbCatalog.getImage().save(image);
             pokemon.setImage(image);
+        }else {
+            pokemon.setImage(imageFromDb);
         }
     }
 
@@ -207,7 +210,7 @@ public class PokemonUpdater implements IPokemonUpdater {
                 .collect(Collectors.summarizingInt(Pokemon::getSourceId))
                 .getMax();
         if (theLastId <= 0) {
-            theLastId = quantity;
+            theLastId = 0;
         }
         getPokemonDtoList(quantity, theLastId).forEach(this::savePokemon);
     }
@@ -251,6 +254,16 @@ public class PokemonUpdater implements IPokemonUpdater {
                 .orElse(null);
         if (abilityFromPokemonFromDb == null) {
             dbCatalog.getAbilityFromPokemon().save(ability);
+        }
+    }
+
+    private void saveImageFromDb(){
+        var pokemonFromDb = dbCatalog.getPokemon().findAll();
+        for (var pokemon : pokemonFromDb){
+            if (pokemon.getImage() == null){
+                pokemon.setImage(dbCatalog.getImage().findById(pokemon.getSourceId()).orElse(null));
+                dbCatalog.getPokemon().save(pokemon);
+            }
         }
     }
 }
