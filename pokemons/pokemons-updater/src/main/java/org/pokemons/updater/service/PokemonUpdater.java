@@ -1,4 +1,4 @@
-package org.pokemons.updater;
+package org.pokemons.updater.service;
 
 
 import lombok.RequiredArgsConstructor;
