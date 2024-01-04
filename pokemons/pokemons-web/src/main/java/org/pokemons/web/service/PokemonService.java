@@ -5,6 +5,7 @@ import org.pokemons.data.model.Pokemon;
 import org.pokemons.data.repositories.IRepositoriesCatalog;
 import org.pokemons.web.contract.PokemonDto;
 import org.pokemons.web.contract.PokemonSummaryDto;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,7 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PokemonService implements IPokemonService {
     private final IRepositoriesCatalog dbCatalog;
+
     @Override
+    @Cacheable(cacheNames = "pokemons")
     public List<PokemonSummaryDto> getAllPokemons() {
         List<PokemonSummaryDto> pokemons = new ArrayList<>();
         for (var pokemonFromDb : dbCatalog.getPokemon().findAll()){
@@ -28,6 +31,7 @@ public class PokemonService implements IPokemonService {
     }
 
     @Override
+    @Cacheable(cacheNames = "pokemon", key = "#id")
     public PokemonDto getPokemon(int id) {
         PokemonDto pokemonDto = new PokemonDto();
         var pokemonFromDb = dbCatalog.getPokemon().findFirstBySourceId(id).orElse(null);
