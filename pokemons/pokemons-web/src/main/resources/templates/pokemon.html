@@ -2,7 +2,7 @@
 <html lang="en">
 <head th:replace="~{general.html :: head}"></head>
 <body>
-<table>
+<table class="table">
     <thead>
     <tr>
         <th scope="col"><b>Id</b></th>
@@ -14,7 +14,7 @@
         <th scope="col"><b>Stats</b></th>
         <th scope="col"><b>Types</b></th>
         <th scope="col"><b>Image</b></th>
-        <th scope="col"><b>Edit</b></th>
+<!--        <th scope="col"><b>Edit</b></th>-->
         <th scope="col"><b>Delete</b></th>
     </tr>
     </thead>
@@ -50,13 +50,13 @@
             </ul>
         </td>
         <td><img th:src = "${pokemon.getImage().getUrl()}"></td>
-        <td>
-            <a th:href="@{'/api/v1/pokemon/update/' + ${pokemon.getId()}}">
-                <button>
-                    <b>Edit</b>
-                </button>
-            </a>
-        </td>
+<!--        <td>-->
+<!--            <a th:href="@{'/api/v1/pokemon/update/' + ${pokemon.getId()}}">-->
+<!--                <button>-->
+<!--                    <b>Edit</b>-->
+<!--                </button>-->
+<!--            </a>-->
+<!--        </td>-->
         <td>
             <a th:href="@{'/api/v1/pokemon/delete/' + ${pokemon.getId()}}">
                 <button>
