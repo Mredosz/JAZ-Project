@@ -14,9 +14,6 @@ public class Type {
     private String name;
     @ManyToMany
     private List<DamageRelations> damageRelations = new ArrayList<>();
-//    @ManyToMany
-//    private List<Pokemon> pokemons = new ArrayList<>();
-
     public int getId() {
         return id;
     }
@@ -48,12 +45,4 @@ public class Type {
     public void setDamageRelations(List<DamageRelations> damageRelations) {
         this.damageRelations = damageRelations;
     }
-
-//    public List<Pokemon> getPokemons() {
-//        return pokemons;
-//    }
-//
-//    public void setPokemons(List<Pokemon> pokemons) {
-//        this.pokemons = pokemons;
-//    }
 }

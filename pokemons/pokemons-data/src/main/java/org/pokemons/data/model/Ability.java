@@ -2,9 +2,6 @@ package org.pokemons.data.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 public class Ability {
     @Id
@@ -14,8 +11,6 @@ public class Ability {
     private String name;
     @ManyToOne
     private Generation generation;
-    @ManyToMany
-    private List<Pokemon> pokemons = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -49,11 +44,4 @@ public class Ability {
         this.generation = generation;
     }
 
-    public List<Pokemon> getPokemon() {
-        return pokemons;
-    }
-
-    public void setPokemon(List<Pokemon> pokemons) {
-        this.pokemons = pokemons;
-    }
 }
