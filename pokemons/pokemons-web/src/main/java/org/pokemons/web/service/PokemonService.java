@@ -17,7 +17,7 @@ public class PokemonService implements IPokemonService {
     private final IRepositoriesCatalog dbCatalog;
 
     @Override
-    @Cacheable(cacheNames = "pokemons")
+//    @Cacheable(cacheNames = "pokemons")
     public List<PokemonSummaryDto> getAllPokemons() {
         List<PokemonSummaryDto> pokemons = new ArrayList<>();
         for (var pokemonFromDb : dbCatalog.getPokemon().findAll()){

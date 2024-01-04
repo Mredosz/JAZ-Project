@@ -132,7 +132,11 @@ public class PokemonUpdater implements IPokemonUpdater {
 
     private void updateDictionaries() {
         if (dbCatalog.getGeneration().findAll().size() < 9) getGenerationDtoList().forEach(this::saveGeneration);
-        if (dbCatalog.getAbility().findAll().size() < 367) getAbilityDtoList().forEach(this::saveAbility);
+        if (dbCatalog.getAbility().findAll().size() < 367) {
+            for (var ability : getAbilityDtoList()) {
+                new Thread(() -> saveAbility(ability)).start();
+            }
+        }
         if (dbCatalog.getType().findAll().size() < 20) getTypeDtoList().forEach(this::saveType);
         if (dbCatalog.getStats().findAll().size() < 8) client.getStats().forEach(this::saveStats);
     }
@@ -196,11 +200,13 @@ public class PokemonUpdater implements IPokemonUpdater {
         var imageFromDb = dbCatalog.getImage()
                 .findFirstByUrl(image.getUrl())
                 .orElse(null);
-        if (imageFromDb == null) {
+        if (imageFromDb == null && image.getUrl() != null) {
             dbCatalog.getImage().save(image);
             pokemon.setImage(image);
-        }else {
-            pokemon.setImage(imageFromDb);
+        } else if (imageFromDb == null && image.getUrl() == null){
+            image.setUrl("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+ pokemonDto.getSourceId()+".png");
+            dbCatalog.getImage().save(image);
+            pokemon.setImage(image);
         }
     }
 
@@ -257,10 +263,10 @@ public class PokemonUpdater implements IPokemonUpdater {
         }
     }
 
-    private void saveImageFromDb(){
+    private void saveImageFromDb() {
         var pokemonFromDb = dbCatalog.getPokemon().findAll();
-        for (var pokemon : pokemonFromDb){
-            if (pokemon.getImage() == null){
+        for (var pokemon : pokemonFromDb) {
+            if (pokemon.getImage() == null) {
                 pokemon.setImage(dbCatalog.getImage().findById(pokemon.getSourceId()).orElse(null));
                 dbCatalog.getPokemon().save(pokemon);
             }
