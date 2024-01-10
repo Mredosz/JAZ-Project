@@ -2,7 +2,9 @@ package org.pokemons.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.pokemons.web.contract.PokemonDto;
+import org.pokemons.web.service.CacheService;
 import org.pokemons.web.service.IPokemonService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class WebController {
     private final IPokemonService service;
+    private final CacheService cacheService;
 
     @GetMapping("/index")
     public String getWelcomeView() {
@@ -58,5 +61,11 @@ public class WebController {
     public String addPokemon(@ModelAttribute PokemonDto pokemonDto){
         service.addPokemon(pokemonDto);
         return "redirect:/api/v1/pokemon/all";
+    }
+
+    @GetMapping("/clearCache")
+    public ResponseEntity<Void> clearCache(){
+        cacheService.clearCache();
+        return ResponseEntity.ok().build();
     }
 }
