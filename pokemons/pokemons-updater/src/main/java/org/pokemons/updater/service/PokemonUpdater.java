@@ -1,6 +1,7 @@
 package org.pokemons.updater.service;
 
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.pokemons.client.pokemonclient.IPokemonClient;
 import org.pokemons.client.pokemonclient.contract.dictionaries.IPokemonDictionariesClient;
@@ -27,6 +28,7 @@ public class PokemonUpdater implements IPokemonUpdater {
     private final IPokemonClient client;
 
     @Override
+    @Transactional
     public void update(int quantity) {
         updateDictionaries();
         updatePokemon(quantity);
@@ -132,11 +134,7 @@ public class PokemonUpdater implements IPokemonUpdater {
 
     private void updateDictionaries() {
         if (dbCatalog.getGeneration().findAll().size() < 9) getGenerationDtoList().forEach(this::saveGeneration);
-        if (dbCatalog.getAbility().findAll().size() < 367) {
-            for (var ability : getAbilityDtoList()) {
-                new Thread(() -> saveAbility(ability)).start();
-            }
-        }
+        if (dbCatalog.getAbility().findAll().size() < 367) getAbilityDtoList().forEach(this::saveAbility);
         if (dbCatalog.getType().findAll().size() < 20) getTypeDtoList().forEach(this::saveType);
         if (dbCatalog.getStats().findAll().size() < 8) client.getStats().forEach(this::saveStats);
     }
