@@ -1,9 +1,9 @@
 package org.pokemons.data.model;
 
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Type {
@@ -12,8 +12,6 @@ public class Type {
     private int id;
     private int sourceId;
     private String name;
-    @ManyToMany
-    private List<DamageRelations> damageRelations = new ArrayList<>();
     public int getId() {
         return id;
     }
@@ -36,13 +34,5 @@ public class Type {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<DamageRelations> getDamageRelations() {
-        return damageRelations;
-    }
-
-    public void setDamageRelations(List<DamageRelations> damageRelations) {
-        this.damageRelations = damageRelations;
     }
 }

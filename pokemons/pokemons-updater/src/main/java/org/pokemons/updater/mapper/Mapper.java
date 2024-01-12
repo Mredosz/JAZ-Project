@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 public class Mapper implements IMapper {
     private final AbilityFromPokemonMapper abilityFromPokemon;
     private final AbilityMapper ability;
-    private final DamageRelationsMapper damageRelations;
     private final GenerationMapper generation;
     private final PokemonFromAbilityMapper pokemonFromAbility;
     private final PokemonFromTypeMapper pokemonFromType;

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 public class RepositoriesCatalog implements IRepositoriesCatalog {
     private final AbilityFromPokemonRepository abilityFromPokemon;
     private final AbilityRepository ability;
-    private final DamageRelationsRepository damageRelations;
     private final GenerationRepository generation;
     private final PokemonFromAbilityRepository pokemonFromAbility;
     private final PokemonFromTypeRepository pokemonFromType;
