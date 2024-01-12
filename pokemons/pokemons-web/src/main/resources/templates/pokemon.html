@@ -1,71 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head th:replace="~{general.html :: head}"></head>
-<body>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col"><b>Id</b></th>
-        <th scope="col"><b>Name</b></th>
-        <th scope="col"><b>Generation</b></th>
-        <th scope="col"><b>Height</b></th>
-        <th scope="col"><b>Weight</b></th>
-        <th scope="col"><b>Abilities</b></th>
-        <th scope="col"><b>Stats</b></th>
-        <th scope="col"><b>Types</b></th>
-        <th scope="col"><b>Image</b></th>
-<!--        <th scope="col"><b>Edit</b></th>-->
-        <th scope="col"><b>Delete</b></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td th:text = "${pokemon.getId()}"></td>
-        <td th:text = "${pokemon.getName()}"></td>
-        <td th:text = "${pokemon.getGeneration().getName()}"></td>
-        <td th:text = "${pokemon.getHeight()}"></td>
-        <td th:text = "${pokemon.getWeight()}"></td>
-        <td>
-            <ul>
-                <li th:each="ability : ${pokemon.getAbilities()}">
-                    <span th:text="${ability.getAbility().getName()}">Name</span>
-                </li>
-            </ul>
-        </td>
-        <td>
-            <ul>
-                <li th:each="stat : ${pokemon.getStats()}">
-                    <span th:text="${stat.getStats().getName()}">Name</span>
-                    <span th:text="${stat.getBaseStat()}">BaseStat</span>
-                    <span th:text="${stat.getEffort()}">Effort</span>
-                </li>
-            </ul>
-        </td>
-        <td>
-            <ul>
-                <li th:each="types : ${pokemon.getTypes()}">
-                    <span th:text="${types.getSlot()}">Slot</span>
-                    <span th:text="${types.getType().getName()}">Slot</span>
-                </li>
-            </ul>
-        </td>
-        <td><img th:src = "${pokemon.getImage().getUrl()}"></td>
-<!--        <td>-->
-<!--            <a th:href="@{'/api/v1/pokemon/update/' + ${pokemon.getId()}}">-->
-<!--                <button>-->
-<!--                    <b>Edit</b>-->
-<!--                </button>-->
-<!--            </a>-->
-<!--        </td>-->
-        <td>
-            <a th:href="@{'/api/v1/pokemon/delete/' + ${pokemon.getId()}}">
-                <button>
-                    <b>Delete</b>
-                </button>
-            </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<body class="bodyDetail bg-danger">
+<div class="containerInDetail position-relative shadow-lg">
+    <div class="position-absolute top-0 start-0 w-50 h-50" id="pokemonImageDiv">
+        <img th:src="${pokemon.getImage().getUrl()}" id="pokemonImage">
+    </div>
+    <div class="position-absolute top-0 end-0 w-50 h-50">
+        <div class="mt-5">
+            <p>Type</p>
+            <div class="d-inline" th:each="types : ${pokemon.getTypes()}">
+                <div class="d-inline" th:if="${types.getType().getName().equals('normal')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #929DA3"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('fighting')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #CE416B"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('flying')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #8FA9DE"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('poison')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #AA6BC8"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('ground')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #D97845"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('rock')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #C5B78C"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('bug')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #91C12F"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('ghost')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #5269AD"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('steel')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #5A8EA2"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('fire')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #FF9D55"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('water')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #5090D6"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('grass')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #63BC5A"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('electric')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #F4D23C"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('psychic')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #FA7179"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('ice')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #73CEC0"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('dragon')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #0B6DC3"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('dark')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #5A5465"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+                <div class="d-inline" th:if="${types.getType().getName().equals('fairy')}">
+                    <span class="badge rounded-pill fs-6" style="background-color: #EC8FE6"
+                          th:text="${types.getType().getName()}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5">
+            <p>Abilities</p>
+            <p class="d-inline" th:each="ability : ${pokemon.getAbilities()}">
+                <span class="text-capitalize fs-4 me-3" th:text="${ability.getAbility().getName()}"></span>
+            </p>
+        </div>
+    </div>
+    <div class="position-absolute bottom-0 start-0 w-50 h-50 text-center">
+        <div>
+            <p class="d-inline text-capitalize fs-4" th:text="${pokemon.name}"></p>
+        </div>
+        <div>
+            <p class="d-inline text-capitalize fs-4" th:text="${pokemon.getGeneration().getName()}"></p>
+        </div>
+        <div>
+            <p class="d-inline fs-3">Height</p>
+            <p class="d-inline fs-4" th:text="${pokemon.getHeight()}"></p>
+        </div>
+        <div>
+            <p class="d-inline fs-3">Weight</p>
+            <p class="d-inline fs-4" th:text="${pokemon.getWeight()}"></p>
+        </div>
+    </div>
+    <div class="position-absolute bottom-0 end-0 w-50 h-50">
+        <div class="mb-3 container" th:each="stat : ${pokemon.getStats()}">
+            <div class="d-inline" th:if="${stat.getStats().getName().equals('hp')}">
+                <p class="text-capitalize badge fs-6 d-inline" style="background-color: #FD0000"
+                   th:text="${stat.getStats().getName()}"></p>
+            </div>
+            <div class="d-inline" th:if="${stat.getStats().getName().equals('attack')}">
+                <p class="text-capitalize badge fs-6 d-inline" style="background-color: #F1802E"
+                   th:text="${stat.getStats().getName()}"></p>
+            </div>
+            <div class="d-inline" th:if="${stat.getStats().getName().equals('defense')}">
+                <p class="text-capitalize badge fs-6 d-inline" style="background-color: #F8D030"
+                   th:text="${stat.getStats().getName()}"></p>
+            </div>
+            <div class="d-inline" th:if="${stat.getStats().getName().equals('special-attack')}">
+                <p class="text-capitalize badge fs-6 d-inline" style="background-color: #6890EB"
+                   th:text="${stat.getStats().getName()}"></p>
+            </div>
+            <div class="d-inline" th:if="${stat.getStats().getName().equals('special-defense')}">
+                <p class="text-capitalize badge fs-6 d-inline" style="background-color: #75C853"
+                   th:text="${stat.getStats().getName()}"></p>
+            </div>
+            <div class="d-inline" th:if="${stat.getStats().getName().equals('speed')}">
+                <p class="text-capitalize badge fs-6 d-inline" style="background-color: #F6588B"
+                   th:text="${stat.getStats().getName()}"></p>
+            </div>
+            <p class="d-inline" th:text="${stat.getBaseStat()}"></p>
+        </div>
+    </div>
+</div>
 </body>
 </html>

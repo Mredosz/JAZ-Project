@@ -1,0 +1,25 @@
+.containerInDetail {
+    height: 607px;
+    width: 1027px;
+    margin: 4% 17%;
+    border-radius: 25px;
+    outline: solid 1px black;
+    background-color: aliceblue;
+}
+
+#pokemonImage {
+    width: 55%;
+}
+
+#pokemonImageDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-bg-primary {
+    font-size: 15px;
+}
+.card:hover{
+    box-shadow: 8px 8px 40px 6px rgba(0, 0, 0, 1);
+}
