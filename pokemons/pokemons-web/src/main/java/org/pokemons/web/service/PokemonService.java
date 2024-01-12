@@ -1,7 +1,6 @@
 package org.pokemons.web.service;
 
 import lombok.RequiredArgsConstructor;
-import org.pokemons.data.model.Pokemon;
 import org.pokemons.data.repositories.IRepositoriesCatalog;
 import org.pokemons.web.contract.PokemonDto;
 import org.pokemons.web.contract.PokemonSummaryDto;
@@ -46,45 +45,4 @@ public class PokemonService implements IPokemonService {
             pokemonDto.setImage(pokemonFromDb.getImage());
             return pokemonDto;
     }
-
-    @Override
-    public void deletePokemon(int id) {
-        var pokemonFromDb = dbCatalog.getPokemon().findFirstBySourceId(id).orElse(null);
-        if (pokemonFromDb != null) {
-            pokemonFromDb.getStats().forEach(s -> dbCatalog.getStatsFromPokemon().delete(s));
-            pokemonFromDb.getAbilities().forEach(s -> dbCatalog.getAbilityFromPokemon().delete(s));
-            pokemonFromDb.getTypes().forEach(s -> dbCatalog.getTypeFromPokemon().delete(s));
-            dbCatalog.getPokemon().delete(pokemonFromDb);
-        }
-    }
-
-    @Override
-    public Pokemon updatePokemon(int id, PokemonDto dto) {
-        var pokemonFromDb = dbCatalog.getPokemon().findFirstBySourceId(id).orElse(null);
-        pokemonFromDb.setGeneration(dto.getGeneration());
-        pokemonFromDb.setName(dto.getName());
-        pokemonFromDb.setWeight(dto.getWeight());
-        pokemonFromDb.setHeight(dto.getHeight());
-        pokemonFromDb.setImage(dto.getImage());
-        pokemonFromDb.setTypes(dto.getTypes());
-        pokemonFromDb.setStats(dto.getStats());
-        pokemonFromDb.setAbilities(dto.getAbilities());
-        dbCatalog.getPokemon().save(pokemonFromDb);
-        return pokemonFromDb;
-    }
-
-    @Override
-    public void addPokemon(PokemonDto dto) {
-        Pokemon pokemon = new Pokemon();
-        pokemon.setImage(dto.getImage());
-        pokemon.setHeight(dto.getHeight());
-        pokemon.setName(dto.getName());
-        pokemon.setAbilities(dto.getAbilities());
-        pokemon.setStats(dto.getStats());
-        pokemon.setTypes(dto.getTypes());
-        pokemon.setGeneration(dto.getGeneration());
-        pokemon.setWeight(dto.getWeight());
-        dbCatalog.getPokemon().save(pokemon);
-    }
-
 }
