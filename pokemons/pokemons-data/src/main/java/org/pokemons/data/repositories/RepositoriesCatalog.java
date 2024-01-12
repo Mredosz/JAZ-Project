@@ -19,4 +19,5 @@ public class RepositoriesCatalog implements IRepositoriesCatalog {
     private final StatsRepository stats;
     private final TypeFromPokemonRepository typeFromPokemon;
     private final TypeRepository type;
+    private final UserRepository user;
 }

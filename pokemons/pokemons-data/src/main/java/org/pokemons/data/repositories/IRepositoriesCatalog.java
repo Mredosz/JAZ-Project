@@ -12,4 +12,5 @@ public interface IRepositoriesCatalog {
     StatsRepository getStats();
     TypeFromPokemonRepository getTypeFromPokemon();
     TypeRepository getType();
+    UserRepository getUser();
 }
