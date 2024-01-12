@@ -9,8 +9,8 @@ public class PokemonClientSettings implements IPokemonClientSettings {
     private String apiVersion;
 
     public PokemonClientSettings(
-            @Value("${poke.api.host}") String baseUrl,
-            @Value("${poke.api.version}")String apiVersion) {
+            @Value("pokeapi.co/api") String baseUrl,
+            @Value("v2")String apiVersion) {
         this.baseUrl = baseUrl;
         this.apiVersion = apiVersion;
     }
