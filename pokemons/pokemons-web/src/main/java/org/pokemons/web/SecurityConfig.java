@@ -15,7 +15,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(
-            x -> x.requestMatchers("/api/v1/pokemon/all").permitAll().anyRequest().authenticated()
+                x -> x.requestMatchers("/registration").permitAll()
+                        .requestMatchers("/update").permitAll()
+                        .anyRequest().authenticated()
         ).formLogin(formLogin ->
                 formLogin.defaultSuccessUrl("/api/v1/pokemon/all", true).permitAll()
         ).logout(logout -> logout.logoutSuccessUrl("/login"));
